@@ -1,70 +1,91 @@
-// src/pages/RegistrationPage.jsx
+// src/pages/RegistrationPage.js
 
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import '../Styling/RegistrationPage.css'; // Import the CSS file for additional styling
 
-const RegistrationPage = () => {
+function RegistrationPage() {
   const [formData, setFormData] = useState({
-    name: '',
+    username: '',
     email: '',
-    password: ''
+    password: '',
+    role: 'user' // Default role
   });
+  const navigate = useNavigate();
 
-  const handleChange = (event) => {
+  const handleChange = (e) => {
     setFormData({
       ...formData,
-      [event.target.name]: event.target.value,
+      [e.target.name]: e.target.value
     });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
     console.log('Form Data:', formData);
-    // Clear the form
-    setFormData({
-      name: '',
-      email: '',
-      password: ''
-    });
+    // Navigate to login page after registration
+    navigate('/login');
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '0 auto', padding: '20px' }}>
-      <h1>Registration Page</h1>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '15px' }}>
-          <label>Name:</label><br />
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
+    <div className="container mt-5 d-flex justify-content-center">
+      <div className="registration-container">
+        <h1 className="text-center">Registration</h1>
+        <form onSubmit={handleSubmit} className="registration-form">
+          <div className="mb-3">
+            <label className="form-label">Username</label>
+            <input
+              type="text"
+              className="form-control"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Email</label>
+            <input
+              type="email"
+              className="form-control"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Password</label>
+            <input
+              type="password"
+              className="form-control"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Role</label>
+            <select
+              className="form-control"
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              required
+            >
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          <button type="submit" className="btn btn-primary w-100">Register</button>
+        </form>
+        <div className="text-center mt-3">
+          <p>Have an account already? <Link to="/login">Login here</Link></p>
         </div>
-        <div style={{ marginBottom: '15px' }}>
-          <label>Email:</label><br />
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div style={{ marginBottom: '15px' }}>
-          <label>Password:</label><br />
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit">Register</button>
-      </form>
+      </div>
     </div>
   );
-};
+}
 
 export default RegistrationPage;

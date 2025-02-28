@@ -1,0 +1,66 @@
+/* src/pages/HomePage.css */
+
+.homepage {
+    background-color: #333;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .navbar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .navbar li {
+    display: inline;
+    margin: 0 15px;
+  }
+  
+  .navbar a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+  }
+  
+  .text-content {
+    margin-right: 20px;
+  }
+  
+  .text-content h1, .text-content h2, .text-content h3 {
+    margin: 10px 0;
+  }
+  
+  .text-content .btn {
+    margin-top: 20px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .text-content .btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .image-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }

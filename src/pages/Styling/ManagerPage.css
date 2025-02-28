@@ -1,0 +1,17 @@
+/* src/pages/Manager/ManagerPage.css */
+
+.manager-page {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+  }
+  
+  .manager-page .navbar {
+    margin-bottom: 20px;
+  }
+  
+  .manager-page .container {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }

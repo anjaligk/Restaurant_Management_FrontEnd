@@ -1,0 +1,34 @@
+/* src/Styling/RegistrationPage.css */
+
+.registration-container {
+  max-width: 500px; /* Adjusted to medium size */
+  width: 100%;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+.registration-form .form-label {
+  font-weight: bold;
+}
+
+.registration-form .form-control {
+  border-radius: 5px;
+}
+
+.registration-form .btn {
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+}
+
+.registration-form .btn:hover {
+  background-color: #0056b3;
+}
+
+.text-center p {
+  margin-top: 10px;
+  font-size: 14px;
+}
