@@ -1,0 +1,49 @@
+body {
+    background-color: #f8f9fa;
+  }
+  
+  h1, h2 {
+    font-family: 'Georgia', serif;
+    color: #343a40;
+  }
+  
+  p {
+    font-family: 'Arial', sans-serif;
+    color: #6c757d;
+    font-size: 1.1rem;
+  }
+  
+  .img-fluid {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .rounded {
+    border-radius: 0.25rem;
+  }
+  
+  .shadow {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  }
+  
+  .mt-5 {
+    margin-top: 3rem !important;
+  }
+  
+  .my-5 {
+    margin-top: 3rem !important;
+    margin-bottom: 3rem !important;
+  }
+  
+  .text-center {
+    text-align: center !important;
+  }
+  
+  .d-flex {
+    display: flex !important;
+  }
+  
+  .align-items-center {
+    align-items: center !important;
+  }
+  
