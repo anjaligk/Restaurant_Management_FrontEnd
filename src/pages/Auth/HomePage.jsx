@@ -4,6 +4,7 @@ import '../Styling/HomePage.css';
 import HomeNavBar from './HomeNav';
 
 function HomePage() {
+  localStorage.clear();
   const navigate = useNavigate();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 

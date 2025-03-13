@@ -11,6 +11,7 @@ import AddTables from './pages/Manager/AddTables';
 import BookTable from './pages/User/BookTable';
 import ManageReservations from './pages/User/ManageReservations';
 import About from './pages/Auth/About';
+import Footer from './pages/Footer';
 
 function App() {
   return (
@@ -31,8 +32,9 @@ function App() {
           <Route index element={<BookTable />} /> 
           <Route path="book-table" element={<BookTable />} />
           <Route path="manage-reservations" element={<ManageReservations />} />
-        </Route>
+        </Route>  
       </Routes> 
+      <Footer />
     </div>
   );
 }

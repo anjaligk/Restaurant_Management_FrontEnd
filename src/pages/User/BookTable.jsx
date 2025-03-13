@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../Auth/AxiosInstance'; // Import the Axios instance
 
 function BookTable() {
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [availableTables, setAvailableTables] = useState([]);
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.length === 0) {
+      alert("Please login to do any operations");
+      navigate("/login"); // Redirect to LoginPage
+    }
+  }, [navigate]);
 
   useEffect(() => {
     // Set default values for date and time
@@ -27,16 +36,13 @@ function BookTable() {
   };
 
   const fetchAvailableTables = async () => {
-    const token = localStorage.getItem('userToken');
     try {
-      const response = await axios.get(`http://localhost:8765/reservation/available-tables?date=${date}&time=${time}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
+    
+      const response = await axiosInstance.get(`/reservation/available-tables?date=${date}&time=${time}`);
+      
       setAvailableTables(response.data);
       console.log('Available Tables:', response.data);
-      console.log(date)
+      console.log(date);
     } catch (error) {
       setMessage('Failed to fetch available tables. Please try again.');
       if (error.response) {
@@ -46,20 +52,14 @@ function BookTable() {
   };
 
   const handleBookTable = async (tableId) => {
-    const token = localStorage.getItem('userToken');
     const userId = localStorage.getItem('userId'); // Assuming userId is stored in localStorage
     console.log('Booking Table with userId:', userId); // Log the userId to debug
     try {
-      const response = await axios.post('http://localhost:8765/reservation/book', {
+      const response = await axiosInstance.post('/reservation/book', {
         customerId: userId,
         tableId,
         reservationDate: date,
         reservationTime: time,
-      }, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
       });
       if (response.status === 200) {
         setMessage('Table booked successfully!');

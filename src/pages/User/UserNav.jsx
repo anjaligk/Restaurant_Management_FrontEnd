@@ -8,8 +8,7 @@ function UserNavBar() {
   const navigate = useNavigate(); // Hook to programmatically navigate
 
   const handleLogout = () => {
-    // Clear any authentication data (e.g., tokens or user info)
-    // Example: localStorage.removeItem("userToken");
+    localStorage.clear(); // Clear local storage
     navigate("/"); // Redirect to HomePage
   };
 

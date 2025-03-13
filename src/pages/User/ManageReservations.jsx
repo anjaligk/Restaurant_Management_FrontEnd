@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../Auth/AxiosInstance'; // Import the Axios instance
 
 function ManageReservations() {
   const [reservations, setReservations] = useState([]);
@@ -10,14 +10,9 @@ function ManageReservations() {
   }, []);
 
   const fetchUserReservations = async () => {
-    const token = localStorage.getItem('userToken');
     const userId = localStorage.getItem('userId');
     try {
-      const response = await axios.get(`http://localhost:8765/reservation/getByCustomerId/${userId}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
+      const response = await axiosInstance.get(`/reservation/getByCustomerId/${userId}`);
       setReservations(response.data);
       console.log('User Reservations:', response.data);
     } catch (error) {
@@ -27,13 +22,8 @@ function ManageReservations() {
   };
 
   const handleCancelReservation = async (reservationId) => {
-    const token = localStorage.getItem('userToken');
     try {
-      const response = await axios.delete(`http://localhost:8765/reservation/cancel/${reservationId}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
+      const response = await axiosInstance.delete(`/reservation/cancel/${reservationId}`);
       if (response.status === 200) {
         setMessage('Reservation canceled successfully.');
         fetchUserReservations(); // Refresh reservations list
@@ -73,4 +63,3 @@ function ManageReservations() {
 }
 
 export default ManageReservations;
-

@@ -5,6 +5,7 @@ import '../Styling/LoginPage.css';
 import HomeNavBar from './HomeNav';
 
 function LoginPage() {
+  localStorage.clear(); // Clear local storage
   const [credentials, setCredentials] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
   const navigate = useNavigate();

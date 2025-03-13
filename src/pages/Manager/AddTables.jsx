@@ -1,26 +1,30 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../Auth/AxiosInstance'; // Import the Axios instance
 
 function AddTables() {
   const [capacity, setCapacity] = useState(''); // State to store table capacity
   const [message, setMessage] = useState(''); // For success/error messages
+  const navigate = useNavigate();
+
+  const isLocalStorageEmpty = () => {
+    return localStorage.length === 0;
+  };
+
+  useEffect(() => {
+    if (isLocalStorageEmpty()) {
+      alert("Please login to do any operations");
+      navigate("/login"); // Redirect to LoginPage
+    }
+  }, [navigate]);
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent form from refreshing the page
 
-    // Retrieve the token from localStorage
-    const token = localStorage.getItem('userToken');
-
     // Example POST request to the backend API
     try {
-      const response = await axios.post('http://localhost:8765/manageTable/add', 
-        { capacity }, 
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        }
+      const response = await axiosInstance.post('/manageTable/add', 
+        { capacity }
       );
 
       if (response.status === 200) {
@@ -36,8 +40,6 @@ function AddTables() {
 
   return (
     <div className="container mt-5">
-      
-      {/* <p>Enter the Table with number of seats:</p> */}
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="capacity" className="form-label">Enter the Table with number of seats:</label>
@@ -59,4 +61,3 @@ function AddTables() {
 }
 
 export default AddTables;
-

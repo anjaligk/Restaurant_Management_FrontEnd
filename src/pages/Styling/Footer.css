@@ -1,0 +1,39 @@
+html, body {
+    height: 100%;
+    margin: 0;
+  }
+  
+  #root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .App {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .footer {
+    background-color: #343a40;
+    color: white;
+    padding: 10px 0;
+  }
+  
+  .footer a, .text-light {
+    color: rgba(255, 255, 255, 0.75);
+  }
+  
+  .footer a:hover, .text-light:hover {
+    color: rgb(198, 143, 143);
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .mt-auto {
+    margin-top: auto;
+  }
+  

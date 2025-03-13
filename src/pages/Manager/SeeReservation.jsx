@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../Auth/AxiosInstance'; // Import the Axios instance
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 
 function SeeReservation() {
@@ -26,17 +26,11 @@ function SeeReservation() {
     const maxDate = new Date(today);
     maxDate.setDate(today.getDate() + 7);
     return maxDate.toISOString().split('T')[0];
-
   };
 
   const fetchAllReservations = async () => {
-    const token = localStorage.getItem('userToken');
     try {
-      const response = await axios.get('http://localhost:8765/manageTable/getAllReservations', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
+      const response = await axiosInstance.get('/manageTable/getAllReservations');
       setReservations(response.data);
       console.log('All Reservations:', response.data);
     } catch (error) {
@@ -44,79 +38,69 @@ function SeeReservation() {
     }
   };
 
-  const handleFilter = async () => {
-    const token = localStorage.getItem('userToken');
-   // console.log('Filter Params:', { date: date, time });
-    try {
-      const response = await axios.get(`http://localhost:8765/manageTable/getReservationByDateAndTime?date=${date}&time=${time}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      setFilteredReservations(response.data);
-      console.log('Filtered Reservations:', response.data);
-      console.log(date)
-    } catch (error) {
-      setMessage('Failed to fetch filtered reservations. Please try again.');
-      console.error('Filter Error:', error.response);
-      console.log(date)
-      if (error.response) {
-        console.error('Error Data:', error.response.data);
-      }
-    }
-  };
+  const handleFilter = (e) => {
+    e.preventDefault(); // Prevent form from refreshing the page
+    
+    const filtered = reservations.filter(reservation => {
+      const reservationTime = reservation.reservationTime.substring(0, 5); // Trim seconds
+      return reservation.reservationDate === date && reservationTime === time;
+    });
 
+    console.log('Filtered Reservations:', filtered);
+    setFilteredReservations(filtered);
+  };
 
   return (
     <div className="container mt-5">
-      {message && <div className="mt-3 alert alert-info">{message}</div>}
+      <h1>See Reservations</h1>
+      {message && <div className="alert alert-info">{message}</div>}
+
+      <form onSubmit={handleFilter} className="mb-4">
+        <div className="row justify-content-center">
+          <div className="col-md-4 mb-3">
+            <label className="form-label">Select Date</label>
+            <input
+              type="date"
+              className="form-control text-center"
+              value={date}
+              min={getTomorrowDate()}
+              max={getMaxDate()}
+              onChange={(e) => setDate(e.target.value)}
+              required
+            />
+          </div>
+        </div>
+        <div className="row justify-content-center">
+          <div className="col-md-2 mb-3">
+            <label className="form-label">Time</label>
+            <select className="form-control text-center" value={time} onChange={(e) => setTime(e.target.value)} required>
+              <option value="">Select Time</option>
+              <option value="19:00">19:00</option>
+              <option value="20:00">20:00</option>
+            </select>
+          </div>
+        </div>
+        <div className="row justify-content-center">
+          <div className="col-md-4 d-flex justify-content-center">
+            <button type="submit" className="btn btn-primary w-100">Filter Reservations</button>
+          </div>
+        </div>
+      </form>
 
       <div className="row">
-        <div className="col-md-8">
-          <div className="row">
-            {(filteredReservations.length ? filteredReservations : reservations).map((reservation) => (
-              <div className="col-md-12 mb-4" key={reservation.reservationId}>
-                <div className="card border-primary shadow">
-                  <div className="card-body">
-                    <h5 className="card-title">Reservation ID: {reservation.reservationId}</h5>
-                    <p className="card-text">Table ID: {reservation.tableId}</p>
-                    <p className="card-text">Date: {reservation.reservationDate}</p>
-                    <p className="card-text">Time: {reservation.reservationTime}</p>
-                    <p className="card-text">Customer ID: {reservation.customerId}</p>
-                  </div>
-                </div>
+        {(filteredReservations.length ? filteredReservations : reservations).map((reservation) => (
+          <div className="col-md-4 mb-4" key={reservation.reservationId}>
+            <div className="card border-primary shadow">
+              <div className="card-body">
+                <h5 className="card-title">Reservation ID: {reservation.reservationId}</h5>
+                <p className="card-text">Customer ID: {reservation.customerId}</p>
+                <p className="card-text">Table ID: {reservation.tableId}</p>
+                <p className="card-text">Date: {reservation.reservationDate}</p>
+                <p className="card-text">Time: {reservation.reservationTime}</p>
               </div>
-            ))}
-          </div>
-        </div>
-        <div className="col-md-4">
-          <div className="card border-secondary shadow">
-            <div className="card-body">
-              <h4 className="card-title">Filter Reservations</h4>
-              <div className="mb-4">
-                <label className="form-label">Date</label>
-                <input
-                  type="date"
-                  className="form-control"
-                  value={date}
-                  min={getTomorrowDate()}
-                  max={getMaxDate()}
-                  onChange={(e) => setDate(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label className="form-label">Time</label>
-                <select className="form-control" value={time} onChange={(e) => setTime(e.target.value)} required>
-                  <option value="">Select Time</option>
-                  <option value="19:00">19:00</option>
-                  <option value="20:00">20:00</option>
-                </select>
-              </div>
-              <button className="btn btn-primary w-100" onClick={handleFilter}>Filter Reservations</button>
             </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );

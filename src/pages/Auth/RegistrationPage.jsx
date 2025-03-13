@@ -18,13 +18,39 @@ function RegistrationPage() {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
+  const validateForm = () => {
+    const { name, email, password } = user;
+
+    if (name.length < 3) {
+      setError('Username must be at least 3 characters long.');
+      return false;
+    }
+
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!emailPattern.test(email)) {
+      setError('Please enter a valid email address.');
+      return false;
+    }
+
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+    if (!passwordPattern.test(password)) {
+      setError('Password must be at least 6 characters long and include one capital letter, one small letter, one number, and one special character.');
+      return false;
+    }
+
+    setError('');
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    if (!validateForm()) {
+      return;
+    }
+
     try {
       const res = await axios.post('http://localhost:8765/auth/new', user);
       console.log('Registration Response:', res);
-//      localStorage.setItem('userRole', user.roles.toUpperCase()); // Store role in uppercase
       alert('User Registration Successful!');
       navigate('/login'); // Redirect to login page
     } catch (error) {
